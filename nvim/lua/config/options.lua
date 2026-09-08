@@ -1,0 +1,13 @@
+vim.opt.number = true -- show line numbers
+vim.opt.relativenumber = true -- show line numbers relative to cursor
+vim.opt.expandtab = true -- inerts a tab as four spaces
+vim.opt.shiftwidth = 2 -- number of spaces inserted/removed on shift
+vim.opt.tabstop = 2 -- controls the number of columns a tab character occupies
+vim.opt.clipboard = "unnamedplus" -- use the system keyboard by default
+vim.opt.mouse = "a" -- allows the mouse to be used in every mode (visual, insert and normal)
+vim.opt.termguicolors = true
+vim.opt.scrolloff = 15 -- scroll the screen before reaching the top of bottom
+vim.opt.textwidth = 120
+vim.opt.colorcolumn = "120"
+vim.opt.wrap = true
+vim.opt.linebreak = true
