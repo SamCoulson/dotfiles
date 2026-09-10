@@ -1,30 +1,50 @@
 return {
-  -- The nvim-treesitter plugin provides, a way to install parsers for many different file types. Parsers provide syntax highlighting an indenting
   "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate", -- keep parsers up-to-date
-  lazy = false,       -- only load when file is opened
+
+  -- Explicitly use the new implementation for Neovim 0.12+
+  branch = "main",
+
+  -- nvim-treesitter does not support lazy loading
+  lazy = false,
+
+  build = ":TSUpdate",
+
   config = function()
-    local treesitter = require("nvim-treesitter.config")
+    local treesitter = require("nvim-treesitter")
+
     treesitter.setup({
-      ensure_installed = {
-        "lua",
-        "c_sharp",
-        "c",
-        "cpp",
-        "rust",
-        "vimdoc",
-        "bash",
-        "json",
-        "yaml",
-        "toml",
-        "markdown",
-        "markdown_inline",
-      },
       install_dir = vim.fn.stdpath("data") .. "/site",
-      sync_install = false,
-      highlight = { enable = true },
     })
 
-    --  treesitter.install({ "lua", "vim", "vimdoc", "bash", "json", "yaml", "toml", "markdown", "markdown_inline", "c_sharp", "rust" })
+    treesitter.install({
+      "lua",
+      "c_sharp",
+      "c",
+      "cpp",
+      "rust",
+      "vimdoc",
+      "bash",
+      "json",
+      "yaml",
+      "toml",
+      "markdown",
+      "markdown_inline",
+    })
+
+    -- Highlight files for which we have an installed parser
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function(event)
+        local filetype = vim.bo[event.buf].filetype
+        local lang = vim.treesitter.language.get_lang(filetype)
+
+        if not lang then
+          return
+        end
+
+        if vim.tbl_contains(treesitter.get_installed("parsers"), lang) then
+          vim.treesitter.start(event.buf, lang)
+        end
+      end,
+    })
   end,
 }
