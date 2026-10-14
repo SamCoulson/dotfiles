@@ -8,12 +8,19 @@ return {
       "html",
       "clangd",
     },
+    -- roslyn.nvim manages the C# server itself
+    automatic_enable = { exclude = { "roslyn_ls", "roslyn" } },
   },
   dependencies = {
     {
       -- both of these must load before mason-lspconfig
       "mason-org/mason.nvim",
       opts = {
+        -- the second registry provides the Roslyn language server package
+        registries = {
+          "github:mason-org/mason-registry",
+          "github:Crashdummyy/mason-registry",
+        },
         ui = {
           icons = {
             package_installed = "✔",
