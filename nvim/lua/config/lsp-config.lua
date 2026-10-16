@@ -22,6 +22,20 @@ vim.lsp.config("lua_ls", {
 -- Enable the server
 vim.lsp.enable("lua_ls")
 
+-- rust-analyzer config (the server itself is enabled by mason-lspconfig)
+-- Use clippy instead of `cargo check` for flycheck diagnostics. rust-analyzer
+-- saves the buffer before checking, so diagnostics come from cargo-clippy,
+-- which ships with the rustup clippy component.
+vim.lsp.config("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {
+      check = {
+        command = "clippy",
+      },
+    },
+  },
+})
+
 -- Diagnostics UI (global)
 local severity = vim.diagnostic.severity
 
@@ -48,6 +62,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
   callback = function(ev)
     local opts = { buffer = ev.buf, silent = true }
+
+    -- Inlay hints on for any buffer that has an LSP client
+    vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+
+    vim.keymap.set("n", "<leader>ih", function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+    end, opts)
 
     -- Telescope integration if available
     local ok, tb = pcall(require, "telescope.builtin")

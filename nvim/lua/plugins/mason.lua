@@ -7,6 +7,7 @@ return {
       "stylua",
       "html",
       "clangd",
+      "rust_analyzer",
     },
     -- roslyn.nvim manages the C# server itself
     automatic_enable = { exclude = { "roslyn_ls", "roslyn" } },
