@@ -9,7 +9,7 @@ return {
 		},
 		lazy = false, -- neo-tree will lazily load itself
 		config = function()
-			vim.keymap.set("n", "<leader>n", ":Neotree toggle filesystem reveal left<CR>")
+			vim.keymap.set("n", "<leader>n", ":Neotree toggle filesystem reveal left<CR>", { desc = "Neo-tree: Toggle file explorer" })
 		end,
 	},
 }

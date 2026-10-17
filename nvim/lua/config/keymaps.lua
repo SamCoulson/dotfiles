@@ -4,15 +4,21 @@ local map = vim.keymap.set
 -- leader = space
 -- C-w = Ctrl
 -- M = Alt
-map("i", "jk", "<Esc>", { noremap = true, silent = true })
-map("n", "<leader>w", "<cmd>w<cr>") -- save
-map("n", "<leader>wa", "<cmd>wa<cr>") -- save all
-map("n", "<leader>q", "<cmd>q<cr>") -- quit
-map("n", "<leader>h", "<C-w>h") -- move to left pane
-map("n", "<leader>l", "<C-w>l") -- move to right pane
+--
+-- NOTE: `desc` is what which-key and :map display. A trailing `-- comment`
+-- does NOT show up anywhere, so every mapping here carries a `desc`.
 
-map("n", "<M-j>", ":m .+1<CR>==", { silent = true }) -- shift line down
-map("n", "<M-k>", ":m .-2<CR>==", { silent = true }) -- shift line up
-map("v", "<M-j>", ":m '>+1<CR>gv=gv", { silent = true }) -- shift selected block down
-map("v", "<M-k>", ":m '<-2<CR>gv=gv", { silent = true }) -- shift selected block up
-map("n", "<Esc>", "<cmd>nohlsearch<CR>") -- clear highglights on search
+map("i", "jk", "<Esc>", { noremap = true, silent = true, desc = "Exit insert mode" })
+
+map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+map("n", "<leader>W", "<cmd>wa<cr>", { desc = "Save all files" })
+map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit window" })
+map("n", "<leader>h", "<C-w>h", { desc = "Go to left split" })
+map("n", "<leader>l", "<C-w>l", { desc = "Go to right split" })
+
+map("n", "<M-j>", ":m .+1<CR>==", { silent = true, desc = "Move line down" })
+map("n", "<M-k>", ":m .-2<CR>==", { silent = true, desc = "Move line up" })
+map("v", "<M-j>", ":m '>+1<CR>gv=gv", { silent = true, desc = "Move selection down" })
+map("v", "<M-k>", ":m '<-2<CR>gv=gv", { silent = true, desc = "Move selection up" })
+
+map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search Highlight" })
